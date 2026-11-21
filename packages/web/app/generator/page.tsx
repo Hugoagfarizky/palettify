@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Palette, Share2 } from "lucide-react";
+import { Download, Palette, Share2, Shuffle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import {
   type DeficiencyType,
@@ -151,6 +151,20 @@ function GeneratorInner() {
               className="soft-btn w-full px-3 py-2 text-sm font-semibold text-blue-600"
             >
               Regenerate
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const randomHex = () =>
+                  `#${Math.floor(Math.random() * 0xffffff)
+                    .toString(16)
+                    .padStart(6, "0")}`;
+                setBase(randomHex());
+                setMode(MODES[Math.floor(Math.random() * MODES.length)]!);
+              }}
+              className="soft-btn flex w-full items-center justify-center gap-2 px-3 py-2 text-sm font-semibold"
+            >
+              <Shuffle size={14} /> Surprise me
             </button>
           </div>
         </div>
