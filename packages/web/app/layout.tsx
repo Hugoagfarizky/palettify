@@ -10,8 +10,11 @@ export const metadata: Metadata = {
   description:
     "Generate accessible color palettes and check WCAG contrast ratios. Powered by culori.",
   icons: {
-    icon: "/logo.svg",
-    apple: "/icon-192.png",
+    icon: [
+      { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`, type: "image/svg+xml" },
+      { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-192.png`, type: "image/png", sizes: "192x192" },
+    ],
+    apple: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-192.png`,
   },
 };
 

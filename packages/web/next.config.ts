@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   assetPrefix: isPages ? "/palettify/" : "",
   images: { unoptimized: true },
   transpilePackages: ["palettify"],
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isPages ? "/palettify" : "",
+  },
 };
 
 export default nextConfig;
