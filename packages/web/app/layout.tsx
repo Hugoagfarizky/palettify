@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { Onboarding } from "../components/Onboarding";
+import { ServiceWorkerRegister } from "../components/ServiceWorkerRegister";
 import { MobileNav, Sidebar } from "../components/Sidebar";
 import { ThemeProvider } from "../components/ThemeProvider";
 
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   title: "Palettify — Color Palette Generator & Contrast Checker",
   description:
     "Generate accessible color palettes and check WCAG contrast ratios. Powered by culori.",
+  themeColor: "#3b82f6",
   keywords: [
     "color palette",
     "WCAG",
@@ -56,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
           <Onboarding />
+          <ServiceWorkerRegister />
         </ThemeProvider>
       </body>
     </html>
