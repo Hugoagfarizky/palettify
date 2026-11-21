@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse, toHex, toHsl, toRgb } from "../src/color";
-import { contrast, suggestForeground } from "../src/contrast";
+import { contrast, fixContrast, suggestForeground } from "../src/contrast";
 import { simulate } from "../src/deficiency";
 import { exportCss, exportJson } from "../src/export";
 import { palette } from "../src/palette";
@@ -28,6 +28,12 @@ describe("contrast", () => {
   });
   it("suggests foreground", () => {
     expect(suggestForeground("#000000")).toBe("#ffffff");
+  });
+
+  it("fixContrast passes AA", () => {
+    const fixed = fixContrast("#777777", "#ffffff");
+    const r = contrast(fixed, "#ffffff");
+    expect(r.aa).toBe(true);
   });
 });
 

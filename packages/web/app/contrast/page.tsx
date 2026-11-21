@@ -1,7 +1,7 @@
 "use client";
 
-import { Contrast as ContrastIcon } from "lucide-react";
-import { contrast } from "palettify";
+import { Contrast as ContrastIcon, Wand2 } from "lucide-react";
+import { contrast, fixContrast } from "palettify";
 import { useMemo, useState } from "react";
 
 export default function ContrastPage() {
@@ -15,6 +15,15 @@ export default function ContrastPage() {
       return null;
     }
   }, [fg, bg]);
+
+  const suggestion = useMemo(() => {
+    if (!result || result.aa) return null;
+    try {
+      return fixContrast(fg, bg);
+    } catch {
+      return null;
+    }
+  }, [fg, bg, result]);
 
   return (
     <div className="space-y-6">
@@ -91,6 +100,27 @@ export default function ContrastPage() {
                   </span>
                 ))}
               </div>
+
+              {suggestion && (
+                <div className="soft-inset flex items-center justify-between gap-3 p-3">
+                  <div className="flex items-center gap-2">
+                    <Wand2 size={16} className="text-blue-500" />
+                    <span className="text-sm">Suggested foreground:</span>
+                    <span
+                      className="h-6 w-6 rounded-md border border-white/50 shadow"
+                      style={{ backgroundColor: suggestion }}
+                    />
+                    <span className="font-mono text-sm">{suggestion}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFg(suggestion)}
+                    className="soft-btn px-3 py-1.5 text-xs font-semibold text-blue-600"
+                  >
+                    Apply
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

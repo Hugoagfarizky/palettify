@@ -1,4 +1,5 @@
-import { wcagContrast } from "culori";
+import { converter, wcagContrast } from "culori";
+import * as culori from "culori";
 import { parse, toHex } from "../color";
 
 export interface ContrastResult {
@@ -39,4 +40,38 @@ export function suggestForeground(background: string): string {
   const black = contrast("#000000", background).ratio;
   const white = contrast("#ffffff", background).ratio;
   return black >= white ? "#000000" : "#ffffff";
+}
+
+export function fixContrast(foreground: string, background: string, target = 4.5): string {
+  const fgColor = parse(foreground);
+  const bgColor = parse(background);
+  const toHslFn = converter("hsl");
+  const fgHsl = toHslFn(fgColor);
+  const h = fgHsl.h ?? 0;
+  const s = fgHsl.s ?? 0;
+  const origL = fgHsl.l ?? 0.5;
+
+  const ratioAt = (l: number) => wcagContrast({ mode: "hsl", h, s, l }, bgColor);
+
+  let bestL = origL;
+  let bestDist = Number.POSITIVE_INFINITY;
+  let found = false;
+  for (let i = 0; i <= 100; i++) {
+    const l = i / 100;
+    if (ratioAt(l) >= target) {
+      const dist = Math.abs(l - origL);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestL = l;
+        found = true;
+      }
+    }
+  }
+  if (!found) {
+    if (ratioAt(0) >= target) bestL = 0;
+    else if (ratioAt(1) >= target) bestL = 1;
+  }
+
+  const { formatHex } = culori as { formatHex: (c: unknown) => string | undefined };
+  return formatHex({ mode: "hsl", h, s, l: bestL }) ?? foreground;
 }
