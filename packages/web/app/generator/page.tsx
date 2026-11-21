@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  type DeficiencyType,
   type PaletteMode,
   contrast,
   exportCss,
@@ -8,6 +9,7 @@ import {
   exportTailwind,
   exportTokens,
   palette as genPalette,
+  simulatePalette,
 } from "palettify";
 import { useMemo, useState } from "react";
 
@@ -17,6 +19,7 @@ export default function GeneratorPage() {
   const [base, setBase] = useState("#3b82f6");
   const [mode, setMode] = useState<PaletteMode>("triadic");
   const [steps, setSteps] = useState(5);
+  const [deficiency, setDeficiency] = useState<DeficiencyType | "none">("none");
 
   const colors = useMemo(() => {
     try {
@@ -25,6 +28,15 @@ export default function GeneratorPage() {
       return [];
     }
   }, [base, mode, steps]);
+
+  const simulated = useMemo(() => {
+    if (deficiency === "none") return null;
+    try {
+      return simulatePalette(colors, deficiency);
+    } catch {
+      return null;
+    }
+  }, [colors, deficiency]);
 
   const [copied, setCopied] = useState<string | null>(null);
   function copy(text: string, key: string) {
@@ -74,6 +86,19 @@ export default function GeneratorPage() {
             />
           </label>
         )}
+        <label className="flex flex-col gap-1 text-sm">
+          Color-blind preview
+          <select
+            value={deficiency}
+            onChange={(e) => setDeficiency(e.target.value as DeficiencyType | "none")}
+            className="rounded border border-neutral-300 px-2 py-2"
+          >
+            <option value="none">None</option>
+            <option value="protanopia">Protanopia</option>
+            <option value="deuteranopia">Deuteranopia</option>
+            <option value="tritanopia">Tritanopia</option>
+          </select>
+        </label>
         <input
           type="text"
           value={base}
@@ -120,6 +145,16 @@ export default function GeneratorPage() {
         </div>
       )}
 
+      {simulated && (
+        <div className="rounded-lg border border-neutral-200 bg-white p-4">
+          <h2 className="mb-2 font-semibold">Color-blind preview ({deficiency})</h2>
+          <div className="flex gap-2">
+            {simulated.map((c) => (
+              <div key={c} className="h-16 flex-1 rounded" style={{ backgroundColor: c }} />
+            ))}
+          </div>
+        </div>
+      )}
       <div className="space-y-3">
         <h2 className="font-semibold">Export</h2>
         <div className="flex flex-wrap gap-2">

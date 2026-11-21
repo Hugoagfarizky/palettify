@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parse, toHex, toHsl, toRgb } from "../src/color";
 import { contrast, suggestForeground } from "../src/contrast";
+import { simulate } from "../src/deficiency";
 import { exportCss, exportJson } from "../src/export";
 import { palette } from "../src/palette";
 
@@ -46,5 +47,12 @@ describe("export", () => {
   });
   it("json", () => {
     expect(JSON.parse(exportJson(["#fff"]))).toEqual({ colors: ["#fff"] });
+  });
+});
+
+describe("deficiency", () => {
+  it("simulate returns hex", () => {
+    const out = simulate("#ff0000", "protanopia");
+    expect(out).toMatch(/^#[0-9a-f]{6}$/i);
   });
 });

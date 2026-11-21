@@ -8,6 +8,7 @@ declare module "culori" {
   export function converter(mode: string): (color: any) => any;
   export const oklch: (input: any) => any;
   export const wcagContrast: (a: any, b: any) => number;
-  export const rgb: (input: any) => any;
-  export const hsl: (input: any) => any;
+  export const filterDeficiencyProt: (color: any) => any;
+  export const filterDeficiencyDeuter: (color: any) => any;
+  export const filterDeficiencyTrit: (color: any) => any;
 }
