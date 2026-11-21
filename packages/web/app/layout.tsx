@@ -9,6 +9,26 @@ export const metadata: Metadata = {
   title: "Palettify — Color Palette Generator & Contrast Checker",
   description:
     "Generate accessible color palettes and check WCAG contrast ratios. Powered by culori.",
+  keywords: [
+    "color palette",
+    "WCAG",
+    "contrast checker",
+    "design tokens",
+    "tailwind",
+    "accessibility",
+  ],
+  openGraph: {
+    title: "Palettify — Color Palette Generator & Contrast Checker",
+    description: "Generate accessible color palettes and check WCAG contrast ratios.",
+    type: "website",
+    url: "https://hugoagfarizky.github.io/palettify/",
+    images: [`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-512.png`],
+  },
+  twitter: {
+    card: "summary",
+    title: "Palettify — Color Palette Generator & Contrast Checker",
+    description: "Generate accessible color palettes and check WCAG contrast ratios.",
+  },
   icons: {
     icon: [
       { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`, type: "image/svg+xml" },
