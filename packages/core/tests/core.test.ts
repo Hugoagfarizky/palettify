@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
-import { parse, toHex, toRgb, toHsl } from "../src/color";
+import { describe, expect, it } from "vitest";
+import { parse, toHex, toHsl, toRgb } from "../src/color";
 import { contrast, suggestForeground } from "../src/contrast";
-import { palette } from "../src/palette";
 import { exportCss, exportJson } from "../src/export";
+import { palette } from "../src/palette";
 
 describe("color", () => {
   it("parses hex", () => {

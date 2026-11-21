@@ -1,12 +1,7 @@
-import { oklch, formatHex, type Color } from "culori";
+import { type Color, formatHex, oklch } from "culori";
 import { parse, toHex } from "../color";
 
-export type PaletteMode =
-  | "complementary"
-  | "analogous"
-  | "triadic"
-  | "tetradic"
-  | "monochromatic";
+export type PaletteMode = "complementary" | "analogous" | "triadic" | "tetradic" | "monochromatic";
 
 export interface PaletteOptions {
   /** Number of shades for monochromatic mode (default 5). */

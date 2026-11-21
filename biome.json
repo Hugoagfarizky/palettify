@@ -13,5 +13,17 @@
   },
   "files": {
     "ignore": ["node_modules", "dist", ".next", "coverage"]
-  }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.d.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ]
 }

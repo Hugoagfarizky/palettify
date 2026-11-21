@@ -1,4 +1,4 @@
-import { parse as culoriParse, formatHex, converter, type Color as CuloriColor } from "culori";
+import { type Color as CuloriColor, converter, parse as culoriParse, formatHex } from "culori";
 
 export type Color = CuloriColor;
 
