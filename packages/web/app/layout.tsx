@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   title: "Palettify — Color Palette Generator & Contrast Checker",
   description:
     "Generate accessible color palettes and check WCAG contrast ratios. Powered by culori.",
-  themeColor: "#3b82f6",
   keywords: [
     "color palette",
     "WCAG",
@@ -42,6 +41,10 @@ export const metadata: Metadata = {
     ],
     apple: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-192.png`,
   },
+};
+
+export const viewport = {
+  themeColor: "#3b82f6",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

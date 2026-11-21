@@ -1,6 +1,6 @@
 "use client";
 
-import { Contrast, Home, Image, Moon, Paintbrush, Sun } from "lucide-react";
+import { Contrast, Home, Image, Layers, Moon, Paintbrush, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
@@ -10,6 +10,7 @@ const items = [
   { href: "/generator", label: "Generator", icon: Paintbrush },
   { href: "/contrast", label: "Contrast", icon: Contrast },
   { href: "/extract", label: "Extract", icon: Image },
+  { href: "/gradient", label: "Gradient", icon: Layers },
 ];
 
 export function Sidebar() {
