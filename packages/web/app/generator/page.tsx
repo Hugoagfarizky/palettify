@@ -1,6 +1,7 @@
 "use client";
 
-import { Download, Palette } from "lucide-react";
+import { Download, Palette, Share2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import {
   type DeficiencyType,
   type PaletteMode,
@@ -12,7 +13,7 @@ import {
   palette as genPalette,
   simulatePalette,
 } from "palettify";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { ColorWheelPicker } from "../../components/ColorWheelPicker";
 import { ComponentPreview } from "../../components/ComponentPreview";
 import { PaletteBoard } from "../../components/PaletteBoard";
@@ -20,12 +21,33 @@ import { PaletteBoard } from "../../components/PaletteBoard";
 const MODES: PaletteMode[] = ["complementary", "analogous", "triadic", "tetradic", "monochromatic"];
 
 export default function GeneratorPage() {
+  return (
+    <Suspense fallback={<div className="text-[var(--muted)]">Loading…</div>}>
+      <GeneratorInner />
+    </Suspense>
+  );
+}
+
+function GeneratorInner() {
   const [base, setBase] = useState("#3b82f6");
   const [mode, setMode] = useState<PaletteMode>("triadic");
   const [steps, setSteps] = useState(5);
   const [deficiency, setDeficiency] = useState<DeficiencyType | "none">("none");
   const [colors, setColors] = useState<string[]>(() => genPalette("#3b82f6", "triadic"));
   const [copied, setCopied] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+
+  // Load shared palette from URL
+  useEffect(() => {
+    const p = searchParams.get("p");
+    if (p) {
+      const cols = p
+        .split(",")
+        .map((c) => c.trim())
+        .filter(Boolean);
+      if (cols.length) setColors(cols);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     try {
@@ -177,6 +199,16 @@ export default function GeneratorPage() {
                   {copied === e.label ? "Copied!" : e.label}
                 </button>
               ))}
+              <button
+                type="button"
+                onClick={() => {
+                  const url = `${window.location.origin}${window.location.pathname}?p=${colors.map((c) => encodeURIComponent(c)).join(",")}`;
+                  copy(url, "share");
+                }}
+                className="soft-btn flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600"
+              >
+                <Share2 size={14} /> {copied === "share" ? "Link copied!" : "Share link"}
+              </button>
             </div>
             <pre className="soft-inset max-h-48 overflow-auto p-3 font-mono text-xs">
               {exportCss(colors)}

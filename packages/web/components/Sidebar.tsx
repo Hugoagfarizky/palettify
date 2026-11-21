@@ -18,7 +18,11 @@ export function Sidebar() {
   return (
     <aside className="hidden w-64 shrink-0 flex-col gap-2 p-4 md:flex">
       <div className="soft-card mb-4 flex items-center gap-3 p-4">
-        <img src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`} alt="Palettify" className="h-10 w-10 rounded-xl shadow-lg" />
+        <img
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`}
+          alt="Palettify"
+          className="h-10 w-10 rounded-xl shadow-lg"
+        />
         <div>
           <div className="text-base font-bold">Palettify</div>
           <div className="text-xs text-[var(--muted)]">Color Studio</div>

@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/logo.svg`, type: "image/svg+xml" },
-      { url: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-192.png`, type: "image/png", sizes: "192x192" },
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-192.png`,
+        type: "image/png",
+        sizes: "192x192",
+      },
     ],
     apple: `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/icon-192.png`,
   },
