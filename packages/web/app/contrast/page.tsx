@@ -1,5 +1,6 @@
 "use client";
 
+import { Contrast as ContrastIcon } from "lucide-react";
 import { contrast } from "palettify";
 import { useMemo, useState } from "react";
 
@@ -17,74 +18,100 @@ export default function ContrastPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Contrast Checker</h1>
-
-      <div className="flex flex-wrap items-end gap-6">
-        <label className="flex flex-col gap-1 text-sm">
-          Foreground
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={fg}
-              onChange={(e) => setFg(e.target.value)}
-              className="h-10 w-16 cursor-pointer rounded border border-neutral-300"
-            />
-            <input
-              type="text"
-              value={fg}
-              onChange={(e) => setFg(e.target.value)}
-              className="rounded border border-neutral-300 px-2 py-2 font-mono text-sm"
-            />
-          </div>
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          Background
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={bg}
-              onChange={(e) => setBg(e.target.value)}
-              className="h-10 w-16 cursor-pointer rounded border border-neutral-300"
-            />
-            <input
-              type="text"
-              value={bg}
-              onChange={(e) => setBg(e.target.value)}
-              className="rounded border border-neutral-300 px-2 py-2 font-mono text-sm"
-            />
-          </div>
-        </label>
-      </div>
-
-      <div
-        className="flex h-40 items-center justify-center rounded-lg text-2xl font-semibold"
-        style={{ backgroundColor: bg, color: fg }}
-      >
-        Sample Text — The quick brown fox
-      </div>
-
-      {result && (
-        <div className="space-y-3 rounded-lg border border-neutral-200 bg-white p-4">
-          <div className="text-3xl font-bold">{result.ratio}:1</div>
-          <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
-            {[
-              { label: "AA (normal)", ok: result.aa },
-              { label: "AA (large)", ok: result.aaLarge },
-              { label: "AAA (normal)", ok: result.aaa },
-              { label: "AAA (large)", ok: result.aaaLarge },
-            ].map((b) => (
-              <span
-                key={b.label}
-                className={`rounded px-2 py-1 text-center font-medium ${
-                  b.ok ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                }`}
-              >
-                {b.label}: {b.ok ? "Pass" : "Fail"}
-              </span>
-            ))}
-          </div>
+      <div className="flex items-center gap-3">
+        <div className="soft-card flex h-12 w-12 items-center justify-center text-blue-500">
+          <ContrastIcon size={22} />
         </div>
-      )}
+        <div>
+          <h1 className="text-2xl font-bold">Contrast Checker</h1>
+          <p className="text-sm text-[var(--muted)]">Validate WCAG AA/AAA for your color pairs.</p>
+        </div>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="soft-card space-y-4 p-5">
+          <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+            Foreground
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                type="color"
+                value={fg}
+                onChange={(e) => setFg(e.target.value)}
+                className="h-10 w-12 cursor-pointer rounded-lg border-0"
+              />
+              <input
+                type="text"
+                value={fg}
+                onChange={(e) => setFg(e.target.value)}
+                className="soft-inset flex-1 px-3 py-2 font-mono text-sm outline-none"
+              />
+            </div>
+          </label>
+
+          <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+            Background
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                type="color"
+                value={bg}
+                onChange={(e) => setBg(e.target.value)}
+                className="h-10 w-12 cursor-pointer rounded-lg border-0"
+              />
+              <input
+                type="text"
+                value={bg}
+                onChange={(e) => setBg(e.target.value)}
+                className="soft-inset flex-1 px-3 py-2 font-mono text-sm outline-none"
+              />
+            </div>
+          </label>
+
+          {result && (
+            <div className="space-y-3">
+              <div className="soft-inset p-4 text-center">
+                <div className="text-4xl font-bold">{result.ratio}:1</div>
+                <div className="text-xs text-[var(--muted)]">Contrast ratio</div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { label: "AA normal", ok: result.aa },
+                  { label: "AA large", ok: result.aaLarge },
+                  { label: "AAA normal", ok: result.aaa },
+                  { label: "AAA large", ok: result.aaaLarge },
+                ].map((b) => (
+                  <span
+                    key={b.label}
+                    className={`rounded-xl px-3 py-2 text-center text-xs font-semibold ${
+                      b.ok
+                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                        : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300"
+                    }`}
+                  >
+                    {b.label}: {b.ok ? "Pass" : "Fail"}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div
+          className="soft-card flex min-h-[260px] flex-col items-center justify-center gap-3 rounded-2xl p-6"
+          style={{ backgroundColor: bg, color: fg }}
+        >
+          <div className="text-3xl font-bold">Sample Heading</div>
+          <p className="max-w-md text-center text-sm opacity-90">
+            The quick brown fox jumps over the lazy dog. 0123456789
+          </p>
+          <button
+            type="button"
+            className="rounded-xl px-4 py-2 text-sm font-semibold shadow-md"
+            style={{ backgroundColor: fg, color: bg }}
+          >
+            Button
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

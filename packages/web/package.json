@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^15.1.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "palettify": "*",
+    "@tailwindcss/postcss": "^4.0.0",
     "culori": "^4.0.1",
-    "tailwindcss": "^4.0.0",
-    "@tailwindcss/postcss": "^4.0.0"
+    "lucide-react": "^1.77.0",
+    "next": "^15.1.0",
+    "palettify": "*",
+    "react": "^19.0.0",
+    "react-colorful": "^5.8.1",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",

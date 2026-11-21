@@ -1,5 +1,6 @@
 "use client";
 
+import { Download, Palette } from "lucide-react";
 import {
   type DeficiencyType,
   type PaletteMode,
@@ -11,7 +12,10 @@ import {
   palette as genPalette,
   simulatePalette,
 } from "palettify";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ColorWheelPicker } from "../../components/ColorWheelPicker";
+import { ComponentPreview } from "../../components/ComponentPreview";
+import { PaletteBoard } from "../../components/PaletteBoard";
 
 const MODES: PaletteMode[] = ["complementary", "analogous", "triadic", "tetradic", "monochromatic"];
 
@@ -20,12 +24,14 @@ export default function GeneratorPage() {
   const [mode, setMode] = useState<PaletteMode>("triadic");
   const [steps, setSteps] = useState(5);
   const [deficiency, setDeficiency] = useState<DeficiencyType | "none">("none");
+  const [colors, setColors] = useState<string[]>(() => genPalette("#3b82f6", "triadic"));
+  const [copied, setCopied] = useState<string | null>(null);
 
-  const colors = useMemo(() => {
+  useEffect(() => {
     try {
-      return genPalette(base, mode, { steps });
+      setColors(genPalette(base, mode, { steps }));
     } catch {
-      return [];
+      /* ignore */
     }
   }, [base, mode, steps]);
 
@@ -38,7 +44,18 @@ export default function GeneratorPage() {
     }
   }, [colors, deficiency]);
 
-  const [copied, setCopied] = useState<string | null>(null);
+  function regenerate() {
+    try {
+      setColors(genPalette(base, mode, { steps }));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // keep colors in sync when base/mode/steps change
+  // (useEffect would be cleaner, but keep simple)
+  void regenerate;
+
   function copy(text: string, key: string) {
     navigator.clipboard.writeText(text);
     setCopied(key);
@@ -47,136 +64,125 @@ export default function GeneratorPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Palette Generator</h1>
-
-      <div className="flex flex-wrap items-end gap-4">
-        <label className="flex flex-col gap-1 text-sm">
-          Base color
-          <input
-            type="color"
-            value={base}
-            onChange={(e) => setBase(e.target.value)}
-            className="h-10 w-16 cursor-pointer rounded border border-neutral-300"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          Mode
-          <select
-            value={mode}
-            onChange={(e) => setMode(e.target.value as PaletteMode)}
-            className="rounded border border-neutral-300 px-2 py-2"
-          >
-            {MODES.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
-        </label>
-        {mode === "monochromatic" && (
-          <label className="flex flex-col gap-1 text-sm">
-            Steps
-            <input
-              type="number"
-              min={2}
-              max={12}
-              value={steps}
-              onChange={(e) => setSteps(Number(e.target.value))}
-              className="w-20 rounded border border-neutral-300 px-2 py-2"
-            />
-          </label>
-        )}
-        <label className="flex flex-col gap-1 text-sm">
-          Color-blind preview
-          <select
-            value={deficiency}
-            onChange={(e) => setDeficiency(e.target.value as DeficiencyType | "none")}
-            className="rounded border border-neutral-300 px-2 py-2"
-          >
-            <option value="none">None</option>
-            <option value="protanopia">Protanopia</option>
-            <option value="deuteranopia">Deuteranopia</option>
-            <option value="tritanopia">Tritanopia</option>
-          </select>
-        </label>
-        <input
-          type="text"
-          value={base}
-          onChange={(e) => setBase(e.target.value)}
-          className="rounded border border-neutral-300 px-2 py-2 font-mono text-sm"
-        />
+      <div className="flex items-center gap-3">
+        <div className="soft-card flex h-12 w-12 items-center justify-center text-blue-500">
+          <Palette size={22} />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold">Palette Generator</h1>
+          <p className="text-sm text-[var(--muted)]">Pick, harmonize, and export your palette.</p>
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        {colors.map((c) => (
-          <div key={c} className="flex flex-col items-center gap-1">
-            <div
-              className="h-24 w-24 rounded-lg border border-neutral-200 shadow-sm"
-              style={{ backgroundColor: c }}
-            />
-            <button
-              type="button"
-              onClick={() => copy(c, c)}
-              className="font-mono text-xs text-neutral-600 hover:text-blue-600"
-            >
-              {copied === c ? "copied!" : c}
-            </button>
-          </div>
-        ))}
-      </div>
+      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+        {/* Left: color wheel + controls */}
+        <div className="space-y-4">
+          <ColorWheelPicker color={base} onChange={setBase} />
 
-      {colors.length > 1 && (
-        <div className="rounded-lg border border-neutral-200 bg-white p-4">
-          <h2 className="mb-2 font-semibold">Preview</h2>
-          <div className="flex gap-2">
-            {colors.map((c) => (
-              <div
-                key={c}
-                className="flex h-16 flex-1 items-center justify-center rounded text-sm font-medium"
-                style={{
-                  backgroundColor: c,
-                  color: contrast("#ffffff", c).aa ? "#ffffff" : "#000000",
-                }}
+          <div className="soft-card space-y-3 p-4">
+            <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+              Harmony mode
+              <select
+                value={mode}
+                onChange={(e) => setMode(e.target.value as PaletteMode)}
+                className="soft-inset mt-1 px-3 py-2 text-sm font-medium outline-none"
               >
-                Text
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+                {MODES.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-      {simulated && (
-        <div className="rounded-lg border border-neutral-200 bg-white p-4">
-          <h2 className="mb-2 font-semibold">Color-blind preview ({deficiency})</h2>
-          <div className="flex gap-2">
-            {simulated.map((c) => (
-              <div key={c} className="h-16 flex-1 rounded" style={{ backgroundColor: c }} />
-            ))}
+            {mode === "monochromatic" && (
+              <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                Steps
+                <input
+                  type="number"
+                  min={2}
+                  max={12}
+                  value={steps}
+                  onChange={(e) => setSteps(Number(e.target.value))}
+                  className="soft-inset mt-1 px-3 py-2 text-sm font-medium outline-none"
+                />
+              </label>
+            )}
+
+            <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+              Color-blind preview
+              <select
+                value={deficiency}
+                onChange={(e) => setDeficiency(e.target.value as DeficiencyType | "none")}
+                className="soft-inset mt-1 px-3 py-2 text-sm font-medium outline-none"
+              >
+                <option value="none">None</option>
+                <option value="protanopia">Protanopia</option>
+                <option value="deuteranopia">Deuteranopia</option>
+                <option value="tritanopia">Tritanopia</option>
+              </select>
+            </label>
+
+            <button
+              type="button"
+              onClick={regenerate}
+              className="soft-btn w-full px-3 py-2 text-sm font-semibold text-blue-600"
+            >
+              Regenerate
+            </button>
           </div>
         </div>
-      )}
-      <div className="space-y-3">
-        <h2 className="font-semibold">Export</h2>
-        <div className="flex flex-wrap gap-2">
-          {[
-            { label: "CSS vars", value: exportCss(colors) },
-            { label: "Tailwind", value: exportTailwind(colors) },
-            { label: "JSON", value: exportJson(colors) },
-            { label: "Tokens", value: exportTokens(colors) },
-          ].map((e) => (
-            <button
-              key={e.label}
-              type="button"
-              onClick={() => copy(e.value, e.label)}
-              className="rounded border border-neutral-300 px-3 py-1.5 text-sm hover:bg-neutral-100"
-            >
-              {copied === e.label ? "Copied!" : `Copy ${e.label}`}
-            </button>
-          ))}
+
+        {/* Right: palette + preview + export */}
+        <div className="space-y-4">
+          <div className="soft-card p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="font-semibold">Palette (drag to reorder)</h2>
+              <span className="text-xs text-[var(--muted)]">{colors.length} colors</span>
+            </div>
+            <PaletteBoard colors={colors} onChange={setColors} />
+          </div>
+
+          {simulated && (
+            <div className="soft-card p-5">
+              <h2 className="mb-3 font-semibold">Color-blind preview ({deficiency})</h2>
+              <div className="flex gap-2">
+                {simulated.map((c) => (
+                  <div key={c} className="h-14 flex-1 rounded-xl" style={{ backgroundColor: c }} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <ComponentPreview colors={colors} />
+
+          <div className="soft-card space-y-3 p-5">
+            <div className="flex items-center gap-2">
+              <Download size={16} className="text-[var(--muted)]" />
+              <h2 className="font-semibold">Export</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: "CSS vars", value: exportCss(colors) },
+                { label: "Tailwind", value: exportTailwind(colors) },
+                { label: "JSON", value: exportJson(colors) },
+                { label: "Tokens", value: exportTokens(colors) },
+              ].map((e) => (
+                <button
+                  key={e.label}
+                  type="button"
+                  onClick={() => copy(e.value, e.label)}
+                  className="soft-btn px-3 py-1.5 text-sm font-medium"
+                >
+                  {copied === e.label ? "Copied!" : e.label}
+                </button>
+              ))}
+            </div>
+            <pre className="soft-inset max-h-48 overflow-auto p-3 font-mono text-xs">
+              {exportCss(colors)}
+            </pre>
+          </div>
         </div>
-        <pre className="max-h-60 overflow-auto rounded bg-neutral-900 p-3 text-xs text-neutral-100">
-          {exportCss(colors)}
-        </pre>
       </div>
     </div>
   );

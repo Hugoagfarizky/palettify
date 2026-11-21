@@ -1,11 +1,135 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #eef2ff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --muted: #64748b;
+  --primary: #3b82f6;
+  --primary-soft: #dbeafe;
+  --shadow-soft: 12px 12px 24px #c7d2fe, -12px -12px 24px #ffffff;
+  --shadow-soft-sm: 6px 6px 12px #c7d2fe, -6px -6px 12px #ffffff;
+  --radius: 1.25rem;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #e2e8f0;
+  --card: #111a2e;
+  --muted: #94a3b8;
+  --primary: #60a5fa;
+  --primary-soft: #1e3a8a;
+  --shadow-soft: 12px 12px 24px #050a14, -12px -12px 24px #111a2e;
+  --shadow-soft-sm: 6px 6px 12px #050a14, -6px -6px 12px #111a2e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  min-height: 100vh;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Animated gradient background */
+.bg-animated {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(120deg, #dbeafe, #e0e7ff, #cffafe, #fce7f3);
+  background-size: 300% 300%;
+  animation: gradientShift 18s ease infinite;
+  opacity: 0.7;
+}
+
+.dark .bg-animated {
+  background: linear-gradient(120deg, #0f172a, #1e293b, #0c4a6e, #1e1b4b);
+  background-size: 300% 300%;
+  opacity: 0.9;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Soft UI card */
+.soft-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark .soft-card {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.soft-card:hover {
+  transform: translateY(-2px);
+}
+
+.soft-btn {
+  background: var(--card);
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow-soft-sm);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.15s ease;
+}
+
+.dark .soft-btn {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.soft-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.08), -4px -4px 8px rgba(255, 255, 255, 0.6);
+}
+
+.soft-btn:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1), inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.soft-inset {
+  background: var(--background);
+  border-radius: 0.9rem;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.06), inset -4px -4px 8px rgba(255, 255, 255, 0.7);
+}
+
+.dark .soft-inset {
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(255, 255, 255, 0.03);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }

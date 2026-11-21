@@ -1,26 +1,32 @@
+import { Contrast as ContrastIcon, Palette, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
     <div className="space-y-8">
-      <section className="space-y-3">
+      <section className="soft-card space-y-4 p-8">
+        <div className="flex items-center gap-2 text-blue-500">
+          <Sparkles size={18} />
+          <span className="text-xs font-semibold uppercase tracking-wider">Color Studio</span>
+        </div>
         <h1 className="text-4xl font-bold tracking-tight">Generate accessible color palettes</h1>
-        <p className="max-w-2xl text-neutral-600">
-          Pick a base color, choose a harmony mode, and get a ready-to-use palette with WCAG
-          contrast checks. Export to CSS variables, Tailwind, JSON, or design tokens.
+        <p className="max-w-2xl text-[var(--muted)]">
+          Pick a base color, choose a harmony, and get a ready-to-use palette with WCAG contrast
+          checks. Export to CSS variables, Tailwind, JSON, or design tokens. Includes
+          color-blindness simulation.
         </p>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Link
             href="/generator"
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="soft-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-blue-600"
           >
-            Open generator
+            <Palette size={16} /> Open generator
           </Link>
           <Link
             href="/contrast"
-            className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-100"
+            className="soft-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold"
           >
-            Contrast checker
+            <ContrastIcon size={16} /> Contrast checker
           </Link>
         </div>
       </section>
@@ -34,9 +40,9 @@ export default function HomePage() {
           { title: "WCAG", desc: "AA/AAA validation for normal & large text." },
           { title: "Export", desc: "CSS vars, Tailwind config, JSON, W3C tokens." },
         ].map((f) => (
-          <div key={f.title} className="rounded-lg border border-neutral-200 bg-white p-4">
+          <div key={f.title} className="soft-card p-5">
             <h3 className="font-semibold">{f.title}</h3>
-            <p className="mt-1 text-sm text-neutral-600">{f.desc}</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">{f.desc}</p>
           </div>
         ))}
       </section>
