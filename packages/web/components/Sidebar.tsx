@@ -1,6 +1,6 @@
 "use client";
 
-import { Contrast, Home, Moon, Paintbrush, Sun } from "lucide-react";
+import { Contrast, Home, Image, Moon, Paintbrush, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
@@ -9,6 +9,7 @@ const items = [
   { href: "/", label: "Home", icon: Home },
   { href: "/generator", label: "Generator", icon: Paintbrush },
   { href: "/contrast", label: "Contrast", icon: Contrast },
+  { href: "/extract", label: "Extract", icon: Image },
 ];
 
 export function Sidebar() {
