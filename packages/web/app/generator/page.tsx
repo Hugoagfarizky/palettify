@@ -50,6 +50,36 @@ function GeneratorInner() {
     }
   }, [searchParams]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (e.code === "Space") {
+        e.preventDefault();
+        try {
+          setColors(genPalette(base, mode, { steps }));
+        } catch {
+          /* ignore */
+        }
+      } else if (e.key === "s" || e.key === "S") {
+        const randomHex = () =>
+          `#${Math.floor(Math.random() * 0xffffff)
+            .toString(16)
+            .padStart(6, "0")}`;
+        setBase(randomHex());
+        const idx = Math.floor(Math.random() * MODES.length);
+        const picked = MODES[idx];
+        if (picked) setMode(picked);
+      } else if (e.key === "c" || e.key === "C") {
+        navigator.clipboard.writeText(exportCss(colors));
+        setCopied("CSS vars");
+        setTimeout(() => setCopied(null), 1200);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [base, mode, steps, colors]);
   // Load history
   useEffect(() => {
     try {
