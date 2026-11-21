@@ -35,6 +35,7 @@ function GeneratorInner() {
   const [deficiency, setDeficiency] = useState<DeficiencyType | "none">("none");
   const [colors, setColors] = useState<string[]>(() => genPalette("#3b82f6", "triadic"));
   const [copied, setCopied] = useState<string | null>(null);
+  const [history, setHistory] = useState<string[][]>([]);
   const searchParams = useSearchParams();
 
   // Load shared palette from URL
@@ -48,6 +49,32 @@ function GeneratorInner() {
       if (cols.length) setColors(cols);
     }
   }, [searchParams]);
+
+  // Load history
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("palettify_history");
+      if (raw) setHistory(JSON.parse(raw));
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  // Save to history when colors change
+  useEffect(() => {
+    if (!colors.length) return;
+    setHistory((prev) => {
+      const key = colors.join(",");
+      if (prev.length && prev[0]?.join(",") === key) return prev;
+      const next = [colors, ...prev.filter((p) => p.join(",") !== key)].slice(0, 10);
+      try {
+        localStorage.setItem("palettify_history", JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  }, [colors]);
 
   useEffect(() => {
     try {
@@ -160,13 +187,58 @@ function GeneratorInner() {
                     .toString(16)
                     .padStart(6, "0")}`;
                 setBase(randomHex());
-                setMode(MODES[Math.floor(Math.random() * MODES.length)]!);
+                const idx = Math.floor(Math.random() * MODES.length);
+                const picked = MODES[idx];
+                if (picked) setMode(picked);
               }}
               className="soft-btn flex w-full items-center justify-center gap-2 px-3 py-2 text-sm font-semibold"
             >
               <Shuffle size={14} /> Surprise me
             </button>
           </div>
+
+          {history.length > 0 && (
+            <div className="soft-card space-y-2 p-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                  History
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setHistory([]);
+                    localStorage.removeItem("palettify_history");
+                  }}
+                  className="text-xs text-[var(--muted)] hover:text-rose-500"
+                >
+                  Clear
+                </button>
+              </div>
+              <div className="space-y-1">
+                {history.map((h, i) => (
+                  <button
+                    // biome-ignore lint/suspicious/noArrayIndexKey: history list
+                    key={i}
+                    type="button"
+                    onClick={() => setColors(h)}
+                    className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/50 dark:hover:bg-white/5"
+                  >
+                    <div className="flex gap-1">
+                      {h.slice(0, 6).map((c, j) => (
+                        <span
+                          // biome-ignore lint/suspicious/noArrayIndexKey: color swatches
+                          key={j}
+                          className="h-4 w-4 rounded"
+                          style={{ backgroundColor: c }}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs text-[var(--muted)]">{h.length} colors</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right: palette + preview + export */}
