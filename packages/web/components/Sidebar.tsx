@@ -1,13 +1,13 @@
 "use client";
 
-import { Contrast, Home, Moon, Palette, Sun } from "lucide-react";
+import { Contrast, Home, Moon, Paintbrush, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 
 const items = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/generator", label: "Generator", icon: Palette },
+  { href: "/generator", label: "Generator", icon: Paintbrush },
   { href: "/contrast", label: "Contrast", icon: Contrast },
 ];
 
@@ -18,9 +18,7 @@ export function Sidebar() {
   return (
     <aside className="hidden w-64 shrink-0 flex-col gap-2 p-4 md:flex">
       <div className="soft-card mb-4 flex items-center gap-3 p-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500 text-white shadow-lg">
-          <Palette size={20} />
-        </div>
+        <img src="/logo.svg" alt="Palettify" className="h-10 w-10 rounded-xl shadow-lg" />
         <div>
           <div className="text-base font-bold">Palettify</div>
           <div className="text-xs text-[var(--muted)]">Color Studio</div>

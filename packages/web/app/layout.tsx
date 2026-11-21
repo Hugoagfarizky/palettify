@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "Palettify — Color Palette Generator & Contrast Checker",
   description:
     "Generate accessible color palettes and check WCAG contrast ratios. Powered by culori.",
+  icons: {
+    icon: "/logo.svg",
+    apple: "/icon-192.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

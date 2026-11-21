@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <g id="icon">
+    <path d="M 256 256 L 256 56 A 200 200 0 0 1 429 156 Z" fill="#3b82f6"/>
+    <path d="M 256 256 L 429 156 A 200 200 0 0 1 429 356 Z" fill="#60a5fa"/>
+    <path d="M 256 256 L 429 356 A 200 200 0 0 1 256 456 Z" fill="#3b82f6"/>
+    <path d="M 256 256 L 256 456 A 200 200 0 0 1 83 356 Z" fill="#60a5fa"/>
+    <path d="M 256 256 L 83 356 A 200 200 0 0 1 83 156 Z" fill="#3b82f6"/>
+    <path d="M 256 256 L 83 156 A 200 200 0 0 1 256 56 Z" fill="#60a5fa"/>
+    <circle cx="256" cy="256" r="72" fill="#ffffff"/>
+  </g>
+</svg>
