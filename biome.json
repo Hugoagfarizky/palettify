@@ -12,7 +12,7 @@
     "lineWidth": 100
   },
   "files": {
-    "ignore": ["node_modules", "dist", ".next", "coverage"]
+    "ignore": ["node_modules", "dist", ".next", "out", "coverage"]
   },
   "overrides": [
     {
