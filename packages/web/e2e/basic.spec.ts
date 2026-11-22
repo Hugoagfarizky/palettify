@@ -18,7 +18,9 @@ test("contrast checker", async ({ page }) => {
   await expect(page.getByText(/Contrast ratio/i)).toBeVisible();
 });
 
-test("extract page", async ({ page }) => {
+test("extract uploads and extracts", async ({ page }) => {
   await page.goto("/extract");
-  await expect(page.getByRole("heading", { name: /Image Color Extraction/i })).toBeVisible();
+  const input = page.locator('input[type="file"]');
+  await input.setInputFiles("e2e/test.png");
+  await expect(page.getByText(/#[0-9a-f]{6}/i).first()).toBeVisible({ timeout: 10000 });
 });
