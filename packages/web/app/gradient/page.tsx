@@ -79,7 +79,11 @@ export default function GradientPage() {
               Stops
             </div>
             {colors.map((c, i) => (
-              <div key={i} className="flex items-center gap-2">
+              <div
+                // biome-ignore lint/suspicious/noArrayIndexKey: gradient stops
+                key={i}
+                className="flex items-center gap-2"
+              >
                 <input
                   type="color"
                   value={c}

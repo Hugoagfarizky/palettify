@@ -10,6 +10,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
+import { RandomPalettes } from "../components/RandomPalettes";
 
 const features = [
   {
@@ -121,6 +122,8 @@ const { ratio, aa } = contrast("#ffffff", "#3b82f6");
 const css = exportCss(colors);`}
         </pre>
       </section>
+
+      <RandomPalettes />
 
       {/* CTA */}
       <section className="soft-card flex flex-col items-center gap-3 p-8 text-center">
