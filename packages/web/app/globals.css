@@ -121,6 +121,12 @@ body {
   box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(255, 255, 255, 0.03);
 }
 
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
