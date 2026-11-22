@@ -24,6 +24,10 @@ export default function ExtractPage() {
   function extract() {
     const img = imgRef.current;
     if (!img) return;
+    if (!img.complete || !img.naturalWidth) {
+      console.warn("image not loaded yet");
+      return;
+    }
     setLoading(true);
     try {
       const palette = getPaletteSync(img, { colorCount: 6 });
@@ -69,14 +73,13 @@ export default function ExtractPage() {
                 ref={imgRef}
                 src={src}
                 alt="preview"
-                crossOrigin="anonymous"
                 className="max-h-64 w-full rounded-xl object-contain"
                 onLoad={extract}
+                onError={() => console.error("image failed to load")}
               />
               <button
                 type="button"
                 onClick={extract}
-                disabled={loading}
                 className="soft-btn w-full px-4 py-2 text-sm font-semibold"
               >
                 {loading ? t("extract.extracting") : "Extract colors"}
