@@ -8,7 +8,9 @@ import {
   contrast,
   exportCss,
   exportJson,
+  exportScss,
   exportTailwind,
+  exportTailwindV4,
   exportTokens,
   palette as genPalette,
   simulatePalette,
@@ -304,7 +306,9 @@ function GeneratorInner() {
             <div className="flex flex-wrap gap-2">
               {[
                 { label: "CSS vars", value: exportCss(colors) },
-                { label: "Tailwind", value: exportTailwind(colors) },
+                { label: "SCSS", value: exportScss(colors) },
+                { label: "Tailwind v3", value: exportTailwind(colors) },
+                { label: "Tailwind v4", value: exportTailwindV4(colors) },
                 { label: "JSON", value: exportJson(colors) },
                 { label: "Tokens", value: exportTokens(colors) },
               ].map((e) => (

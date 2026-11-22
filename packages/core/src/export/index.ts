@@ -9,6 +9,18 @@ export function exportCss(colors: string[], options: ExportOptions = {}): string
   return `:root {\n${lines.join("\n")}\n}`;
 }
 
+export function exportScss(colors: string[], options: ExportOptions = {}): string {
+  const prefix = options.prefix ?? "cp";
+  const lines = colors.map((c, i) => `$${prefix}-${i}: ${c};`);
+  return lines.join("\n");
+}
+
+export function exportTailwindV4(colors: string[], options: ExportOptions = {}): string {
+  const prefix = options.prefix ?? "cp";
+  const lines = colors.map((c, i) => `  --color-${prefix}-${i}: ${c};`);
+  return `@theme {\n${lines.join("\n")}\n}`;
+}
+
 export function exportTailwind(colors: string[], options: ExportOptions = {}): string {
   const name = options.name ?? "palette";
   const entries = colors.map((c, i) => `    ${i}: "${c}",`).join("\n");
