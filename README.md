@@ -1,5 +1,10 @@
 # Palettify
 
+[![CI](https://github.com/Hugoagfarizky/palettify/actions/workflows/ci.yml/badge.svg)](https://github.com/Hugoagfarizky/palettify/actions/workflows/ci.yml)
+[![Deploy](https://github.com/Hugoagfarizky/palettify/actions/workflows/pages.yml/badge.svg)](https://github.com/Hugoagfarizky/palettify/actions/workflows/pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Live](https://img.shields.io/badge/live-GitHub%20Pages-brightgreen)](https://hugoagfarizky.github.io/palettify/)
+
 Color palette generator & WCAG contrast checker. Monorepo: core library (`palettify`) + Next.js web app.
 
 ## Packages
