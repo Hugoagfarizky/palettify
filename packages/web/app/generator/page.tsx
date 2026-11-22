@@ -16,6 +16,7 @@ import {
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { ColorWheelPicker } from "../../components/ColorWheelPicker";
 import { ComponentPreview } from "../../components/ComponentPreview";
+import { useLanguage } from "../../components/LanguageProvider";
 import { PaletteBoard } from "../../components/PaletteBoard";
 
 const MODES: PaletteMode[] = ["complementary", "analogous", "triadic", "tetradic", "monochromatic"];
@@ -29,6 +30,7 @@ export default function GeneratorPage() {
 }
 
 function GeneratorInner() {
+  const { t } = useLanguage();
   const [base, setBase] = useState("#3b82f6");
   const [mode, setMode] = useState<PaletteMode>("triadic");
   const [steps, setSteps] = useState(5);
@@ -148,7 +150,7 @@ function GeneratorInner() {
           <Palette size={22} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Palette Generator</h1>
+          <h1 className="text-2xl font-bold">{t("gen.title")}</h1>
           <p className="text-sm text-[var(--muted)]">Pick, harmonize, and export your palette.</p>
         </div>
       </div>

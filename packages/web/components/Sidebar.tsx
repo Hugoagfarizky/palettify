@@ -3,19 +3,21 @@
 import { Contrast, Home, Image, Layers, Moon, Paintbrush, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "./LanguageProvider";
 import { useTheme } from "./ThemeProvider";
 
 const items = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/generator", label: "Generator", icon: Paintbrush },
-  { href: "/contrast", label: "Contrast", icon: Contrast },
-  { href: "/extract", label: "Extract", icon: Image },
-  { href: "/gradient", label: "Gradient", icon: Layers },
-];
+  { href: "/", labelKey: "nav.home", icon: Home },
+  { href: "/generator", labelKey: "nav.generator", icon: Paintbrush },
+  { href: "/contrast", labelKey: "nav.contrast", icon: Contrast },
+  { href: "/extract", labelKey: "nav.extract", icon: Image },
+  { href: "/gradient", labelKey: "nav.gradient", icon: Layers },
+] as const;
 
 export function Sidebar() {
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
+  const { lang, setLang, t } = useLanguage();
 
   return (
     <aside className="hidden w-64 shrink-0 flex-col gap-2 p-4 md:flex">
@@ -46,22 +48,30 @@ export function Sidebar() {
               }`}
             >
               <Icon size={18} />
-              {it.label}
+              {t(it.labelKey)}
             </Link>
           );
         })}
       </nav>
 
-      <div className="mt-auto soft-card p-4">
-        <div className="mb-2 text-xs font-semibold text-[var(--muted)]">Theme</div>
-        <button
-          type="button"
-          onClick={toggle}
-          className="soft-btn flex w-full items-center justify-center gap-2 px-3 py-2 text-sm font-medium"
-        >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-          {theme === "dark" ? "Light mode" : "Dark mode"}
-        </button>
+      <div className="mt-auto soft-card p-4 space-y-2">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setLang(lang === "en" ? "id" : "en")}
+            className="soft-btn flex-1 px-3 py-2 text-xs font-semibold"
+          >
+            {lang === "en" ? "🇮🇩 ID" : "🇬🇧 EN"}
+          </button>
+          <button
+            type="button"
+            onClick={toggle}
+            className="soft-btn flex flex-1 items-center justify-center gap-2 px-3 py-2 text-sm font-medium"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === "dark" ? t("theme.light") : t("theme.dark")}
+          </button>
+        </div>
       </div>
     </aside>
   );
@@ -70,6 +80,7 @@ export function Sidebar() {
 export function MobileNav() {
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
+  const { lang, setLang, t } = useLanguage();
   return (
     <nav className="soft-card mb-4 flex items-center justify-between gap-2 p-2 md:hidden">
       <div className="flex gap-1">
@@ -85,14 +96,23 @@ export function MobileNav() {
               }`}
             >
               <Icon size={14} />
-              {it.label}
+              {t(it.labelKey)}
             </Link>
           );
         })}
       </div>
-      <button type="button" onClick={toggle} className="soft-btn px-2 py-1.5">
-        {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-      </button>
+      <div className="flex gap-1">
+        <button
+          type="button"
+          onClick={() => setLang(lang === "en" ? "id" : "en")}
+          className="soft-btn px-2 py-1.5 text-xs"
+        >
+          {lang === "en" ? "ID" : "EN"}
+        </button>
+        <button type="button" onClick={toggle} className="soft-btn px-2 py-1.5">
+          {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+        </button>
+      </div>
     </nav>
   );
 }

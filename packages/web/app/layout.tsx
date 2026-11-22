@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { LanguageProvider } from "../components/LanguageProvider";
 import { Onboarding } from "../components/Onboarding";
 import { ServiceWorkerRegister } from "../components/ServiceWorkerRegister";
 import { MobileNav, Sidebar } from "../components/Sidebar";
@@ -52,16 +53,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="id" suppressHydrationWarning>
       <body className="min-h-screen text-[var(--foreground)] antialiased">
         <ThemeProvider>
-          <div className="bg-animated" />
-          <div className="flex min-h-screen">
-            <Sidebar />
-            <div className="flex-1 px-4 py-4 md:px-8 md:py-6">
-              <MobileNav />
-              <main className="mx-auto max-w-5xl">{children}</main>
+          <LanguageProvider>
+            <div className="bg-animated" />
+            <div className="flex min-h-screen">
+              <Sidebar />
+              <div className="flex-1 px-4 py-4 md:px-8 md:py-6">
+                <MobileNav />
+                <main className="mx-auto max-w-5xl">{children}</main>
+              </div>
             </div>
-          </div>
-          <Onboarding />
-          <ServiceWorkerRegister />
+            <Onboarding />
+            <ServiceWorkerRegister />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

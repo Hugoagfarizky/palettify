@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ArrowRight,
   Code2,
@@ -10,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "../components/LanguageProvider";
 import { RandomPalettes } from "../components/RandomPalettes";
 
 const features = [
@@ -36,6 +39,7 @@ const steps = [
 ];
 
 export default function HomePage() {
+  const { t } = useLanguage();
   return (
     <div className="space-y-8">
       {/* Hero */}
@@ -44,10 +48,9 @@ export default function HomePage() {
           <Sparkles size={18} />
           <span className="text-xs font-semibold uppercase tracking-wider">Color Studio</span>
         </div>
-        <h1 className="text-4xl font-bold tracking-tight">Generate accessible color palettes</h1>
+        <h1 className="text-4xl font-bold tracking-tight">{t("home.title")}</h1>
         <p className="max-w-2xl text-[var(--muted)]">
-          Pick a base color, choose a harmony, and get a ready-to-use palette with WCAG contrast
-          checks. Export to CSS variables, Tailwind, JSON, or design tokens. Includes
+          {t("home.desc")} Export to CSS variables, Tailwind, JSON, or design tokens. Includes
           color-blindness simulation.
         </p>
         <div className="flex flex-wrap gap-3">

@@ -3,8 +3,10 @@
 import { Contrast as ContrastIcon, Wand2 } from "lucide-react";
 import { contrast, fixContrast } from "palettify";
 import { useMemo, useState } from "react";
+import { useLanguage } from "../../components/LanguageProvider";
 
 export default function ContrastPage() {
+  const { t } = useLanguage();
   const [fg, setFg] = useState("#ffffff");
   const [bg, setBg] = useState("#3b82f6");
 
@@ -32,7 +34,7 @@ export default function ContrastPage() {
           <ContrastIcon size={22} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Contrast Checker</h1>
+          <h1 className="text-2xl font-bold">{t("contrast.title")}</h1>
           <p className="text-sm text-[var(--muted)]">Validate WCAG AA/AAA for your color pairs.</p>
         </div>
       </div>
