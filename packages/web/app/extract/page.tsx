@@ -3,8 +3,10 @@
 import { getPaletteSync } from "colorthief";
 import { Image as ImageIcon, Upload } from "lucide-react";
 import { useRef, useState } from "react";
+import { useLanguage } from "../../components/LanguageProvider";
 
 export default function ExtractPage() {
+  const { t } = useLanguage();
   const inputRef = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [src, setSrc] = useState<string | null>(null);
@@ -42,7 +44,7 @@ export default function ExtractPage() {
           <ImageIcon size={22} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Image Color Extraction</h1>
+          <h1 className="text-2xl font-bold">{t("extract.title")}</h1>
           <p className="text-sm text-[var(--muted)]">
             Upload an image to extract its dominant colors.
           </p>
@@ -57,7 +59,7 @@ export default function ExtractPage() {
             onClick={() => inputRef.current?.click()}
             className="soft-btn flex w-full items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-blue-600"
           >
-            <Upload size={16} /> Choose image
+            <Upload size={16} /> {t("extract.choose")}
           </button>
 
           {src && (
@@ -77,7 +79,7 @@ export default function ExtractPage() {
                 disabled={loading}
                 className="soft-btn w-full px-4 py-2 text-sm font-semibold"
               >
-                {loading ? "Extracting…" : "Extract colors"}
+                {loading ? t("extract.extracting") : "Extract colors"}
               </button>
             </>
           )}

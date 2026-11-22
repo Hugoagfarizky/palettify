@@ -42,7 +42,7 @@ export default function ContrastPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="soft-card space-y-4 p-5">
           <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-            Foreground
+            {t("contrast.fg")}
             <div className="mt-1 flex items-center gap-2">
               <input
                 type="color"
@@ -60,7 +60,7 @@ export default function ContrastPage() {
           </label>
 
           <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-            Background
+            {t("contrast.bg")}
             <div className="mt-1 flex items-center gap-2">
               <input
                 type="color"
@@ -81,7 +81,7 @@ export default function ContrastPage() {
             <div className="space-y-3">
               <div className="soft-inset p-4 text-center">
                 <div className="text-4xl font-bold">{result.ratio}:1</div>
-                <div className="text-xs text-[var(--muted)]">Contrast ratio</div>
+                <div className="text-xs text-[var(--muted)]">{t("contrast.ratio")}</div>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {[
@@ -107,7 +107,7 @@ export default function ContrastPage() {
                 <div className="soft-inset flex items-center justify-between gap-3 p-3">
                   <div className="flex items-center gap-2">
                     <Wand2 size={16} className="text-blue-500" />
-                    <span className="text-sm">Suggested foreground:</span>
+                    <span className="text-sm">{t("contrast.suggest")}:</span>
                     <span
                       className="h-6 w-6 rounded-md border border-white/50 shadow"
                       style={{ backgroundColor: suggestion }}

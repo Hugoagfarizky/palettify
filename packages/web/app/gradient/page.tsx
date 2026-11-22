@@ -2,10 +2,12 @@
 
 import { Layers } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useLanguage } from "../../components/LanguageProvider";
 
 const defaultColors = ["#3b82f6", "#93c5fd", "#1d4ed8"];
 
 export default function GradientPage() {
+  const { t } = useLanguage();
   const [colors, setColors] = useState<string[]>(defaultColors);
   const [type, setType] = useState<"linear" | "radial">("linear");
   const [angle, setAngle] = useState(90);
@@ -36,7 +38,7 @@ export default function GradientPage() {
           <Layers size={22} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Gradient Generator</h1>
+          <h1 className="text-2xl font-bold">{t("gradient.title")}</h1>
           <p className="text-sm text-[var(--muted)]">Build CSS gradients from your palette.</p>
         </div>
       </div>
@@ -49,14 +51,14 @@ export default function GradientPage() {
               onClick={() => setType("linear")}
               className={`soft-btn px-3 py-1.5 text-sm font-medium ${type === "linear" ? "text-blue-600" : ""}`}
             >
-              Linear
+              {t("gradient.linear")}
             </button>
             <button
               type="button"
               onClick={() => setType("radial")}
               className={`soft-btn px-3 py-1.5 text-sm font-medium ${type === "radial" ? "text-blue-600" : ""}`}
             >
-              Radial
+              {t("gradient.radial")}
             </button>
           </div>
 
@@ -110,7 +112,7 @@ export default function GradientPage() {
               onClick={addColor}
               className="soft-btn w-full px-3 py-1.5 text-sm font-medium"
             >
-              + Add stop
+              + {t("gradient.add")}
             </button>
           </div>
 
@@ -123,7 +125,7 @@ export default function GradientPage() {
             }}
             className="soft-btn w-full px-3 py-2 text-sm font-semibold text-blue-600"
           >
-            {copied ? "Copied!" : "Copy CSS"}
+            {copied ? "Copied!" : t("gradient.copy")}
           </button>
           <pre className="soft-inset p-3 font-mono text-xs">background: {css};</pre>
         </div>

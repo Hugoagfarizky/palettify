@@ -193,7 +193,7 @@ function GeneratorInner() {
             )}
 
             <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-              Color-blind preview
+              {t("gen.colorBlind")}
               <select
                 value={deficiency}
                 onChange={(e) => setDeficiency(e.target.value as DeficiencyType | "none")}
@@ -211,7 +211,7 @@ function GeneratorInner() {
               onClick={regenerate}
               className="soft-btn w-full px-3 py-2 text-sm font-semibold text-blue-600"
             >
-              Regenerate
+              {t("gen.regenerate")}
             </button>
             <button
               type="button"
@@ -227,7 +227,7 @@ function GeneratorInner() {
               }}
               className="soft-btn flex w-full items-center justify-center gap-2 px-3 py-2 text-sm font-semibold"
             >
-              <Shuffle size={14} /> Surprise me
+              <Shuffle size={14} /> {t("gen.surprise")}
             </button>
           </div>
 
@@ -235,7 +235,7 @@ function GeneratorInner() {
             <div className="soft-card space-y-2 p-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  History
+                  {t("gen.history")}
                 </h3>
                 <button
                   type="button"
@@ -245,7 +245,7 @@ function GeneratorInner() {
                   }}
                   className="text-xs text-[var(--muted)] hover:text-rose-500"
                 >
-                  Clear
+                  {t("gen.clear")}
                 </button>
               </div>
               <div className="space-y-1">
@@ -279,7 +279,7 @@ function GeneratorInner() {
         <div className="space-y-4">
           <div className="soft-card p-5">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="font-semibold">Palette (drag to reorder)</h2>
+              <h2 className="font-semibold">{t("gen.palette")}</h2>
               <span className="text-xs text-[var(--muted)]">{colors.length} colors</span>
             </div>
             <PaletteBoard colors={colors} onChange={setColors} />
@@ -287,7 +287,9 @@ function GeneratorInner() {
 
           {simulated && (
             <div className="soft-card p-5">
-              <h2 className="mb-3 font-semibold">Color-blind preview ({deficiency})</h2>
+              <h2 className="mb-3 font-semibold">
+                {t("gen.colorBlind")} ({deficiency})
+              </h2>
               <div className="flex gap-2">
                 {simulated.map((c) => (
                   <div key={c} className="h-14 flex-1 rounded-xl" style={{ backgroundColor: c }} />
@@ -301,7 +303,7 @@ function GeneratorInner() {
           <div className="soft-card space-y-3 p-5">
             <div className="flex items-center gap-2">
               <Download size={16} className="text-[var(--muted)]" />
-              <h2 className="font-semibold">Export</h2>
+              <h2 className="font-semibold">{t("gen.export")}</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               {[
@@ -329,7 +331,7 @@ function GeneratorInner() {
                 }}
                 className="soft-btn flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600"
               >
-                <Share2 size={14} /> {copied === "share" ? "Link copied!" : "Share link"}
+                <Share2 size={14} /> {copied === "share" ? "Link copied!" : t("gen.share")}
               </button>
             </div>
             <pre className="soft-inset max-h-48 overflow-auto p-3 font-mono text-xs">
